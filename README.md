@@ -16,14 +16,15 @@
             --ribbon-color: #e63946;
         }
 
-        body {
+        body, html {
             margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
             background: linear-gradient(-45deg, #ffdee9, #fff0f6, #e0c3fc, #b5fffc);
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
             font-family: 'Comic Sans MS', 'Arial', sans-serif;
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; overflow: hidden; position: relative;
+            overflow: hidden; position: relative;
             user-select: none;
         }
 
@@ -32,32 +33,38 @@
         .sparkle { position: absolute; background: white; border-radius: 50%; opacity: 0.8; z-index: 2; animation: twinkle var(--duration) ease-in-out infinite; }
         @keyframes twinkle { 0%, 100% { transform: scale(0); opacity: 0; } 50% { transform: scale(1); opacity: 1; } }
 
+        /* Main Container Centering */
         .screen {
-            display: none; flex-direction: column; align-items: center; text-align: center;
-            width: 85%; max-width: 400px; z-index: 10;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; width: 90%; max-width: 400px; z-index: 10;
             background: var(--glass-bg); backdrop-filter: blur(15px);
-            padding: 35px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.7);
+            padding: 40px 20px; border-radius: 40px; border: 1px solid rgba(255, 255, 255, 0.7);
             box-shadow: 0 20px 45px rgba(0,0,0,0.08);
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         }
 
-        .active { display: flex; animation: slideUp 0.6s ease-out; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .active { display: flex; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         h1 { color: var(--primary-color); font-size: 24px; margin-bottom: 20px; text-shadow: 1px 1px 4px white; }
 
-        .btn-container { position: relative; display: flex; justify-content: center; align-items: center; gap: 20px; width: 100%; min-height: 200px; }
+        /* Step 1 Button Layout */
+        .btn-container { 
+            position: relative; display: flex; justify-content: center; align-items: center; 
+            width: 100%; min-height: 250px; 
+        }
         
         button { 
             padding: 14px 35px; font-size: 18px; cursor: pointer; border-radius: 50px; border: none; 
             font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
-            transition: transform 0.1s ease; /* Fast transition for smooth scaling */
+            transition: transform 0.1s ease; 
             touch-action: manipulation;
         }
 
-        #yesBtn { background: var(--primary-color); color: white; z-index: 100; }
-        #noBtn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); position: relative; z-index: 50; }
+        #yesBtn { background: var(--primary-color); color: white; z-index: 100; position: relative; }
+        #noBtn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); position: absolute; z-index: 50; }
 
-        /* BOUQUET & WRAP */
+        /* Bouquet Styling */
         .bouquet-box {
             position: relative; width: 220px; height: 260px;
             display: flex; justify-content: center; align-items: center;
@@ -74,8 +81,8 @@
 
         @keyframes float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-15px) rotate(1deg); } }
 
-        /* ENVELOPE SURPRISE */
-        .envelope-container { position: relative; width: 280px; height: 180px; cursor: pointer; margin-top: 40px; perspective: 1000px; }
+        /* Envelope Surprise */
+        .envelope-container { position: relative; width: 280px; height: 180px; cursor: pointer; margin-top: 20px; perspective: 1000px; }
         .envelope-back { position: absolute; width: 100%; height: 100%; background: var(--envelope-color); border-radius: 0 0 15px 15px; z-index: 1; }
         .lid { position: absolute; width: 0; height: 0; border-top: 100px solid var(--envelope-dark); border-left: 140px solid transparent; border-right: 140px solid transparent; top: 0; left: 0; transform-origin: top; transition: transform 0.6s ease; z-index: 10; }
         .envelope-front { position: absolute; width: 0; height: 0; border-right: 140px solid var(--envelope-color); border-bottom: 90px solid var(--envelope-dark); border-left: 140px solid var(--envelope-color); bottom: 0; z-index: 9; border-radius: 0 0 15px 15px; }
@@ -113,7 +120,7 @@
             </div>
             <div class="emoji-ribbon"><div class="ribbon-knot"></div></div>
         </div>
-        <p style="color: var(--primary-color); font-weight: bold; font-size: 16px; margin-top: 10px;">A beautiful bouquet for my beautiful lovie!</p>
+        <p style="color: var(--primary-color); font-weight: bold; font-size: 16px;">A beautiful bouquet for my beautiful lovie!</p>
         <button onclick="goToStep(3)" style="background: var(--primary-color); color: white; margin-top: 10px;">Read my letter 💌</button>
     </div>
 
@@ -137,10 +144,11 @@
                 </div>
             </div>
         </div>
-        <p style="margin-top: 60px; font-size: 14px; color: #ff4d6d; font-weight: bold;">(Tap to open the letter)</p>
+        <p style="margin-top: 50px; font-size: 14px; color: #ff4d6d; font-weight: bold;">(Tap to open the letter)</p>
     </div>
 
     <script>
+        // Sparkle background logic
         const decor = document.getElementById('decorations');
         for(let i=0; i<30; i++) {
             const s = document.createElement('div');
@@ -159,15 +167,12 @@
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
             
-            // Move "No" button randomly
-            const x = Math.floor(Math.random() * 160 - 80);
-            const y = Math.floor(Math.random() * 160 - 80);
+            // Randomized movement for NO button
+            const x = Math.floor(Math.random() * 180 - 90);
+            const y = Math.floor(Math.random() * 180 - 90);
             
-            // Shrink "No" button
-            noScale = Math.max(0.2, noScale - 0.1); 
-            
-            // Grow "Yes" button by 20% (1.2 multiplier)
-            yesScale += 0.2;
+            noScale = Math.max(0.1, noScale - 0.1); 
+            yesScale += 0.2; // 20% Growth
             
             noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noScale})`;
             yesBtn.style.transform = `scale(${yesScale})`;
