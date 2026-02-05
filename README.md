@@ -24,6 +24,7 @@
             font-family: 'Comic Sans MS', 'Arial', sans-serif;
             display: flex; justify-content: center; align-items: center;
             height: 100vh; overflow: hidden; position: relative;
+            user-select: none;
         }
 
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
@@ -44,10 +45,17 @@
 
         h1 { color: var(--primary-color); font-size: 24px; margin-bottom: 20px; text-shadow: 1px 1px 4px white; }
 
-        .btn-container { position: relative; display: flex; justify-content: center; align-items: center; gap: 20px; width: 100%; min-height: 150px; }
-        button { padding: 14px 35px; font-size: 18px; cursor: pointer; border-radius: 50px; border: none; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s; }
+        .btn-container { position: relative; display: flex; justify-content: center; align-items: center; gap: 20px; width: 100%; min-height: 200px; }
+        
+        button { 
+            padding: 14px 35px; font-size: 18px; cursor: pointer; border-radius: 50px; border: none; 
+            font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            transition: transform 0.1s ease; /* Fast transition for smooth scaling */
+            touch-action: manipulation;
+        }
+
         #yesBtn { background: var(--primary-color); color: white; z-index: 100; }
-        #noBtn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); position: relative; }
+        #noBtn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); position: relative; z-index: 50; }
 
         /* BOUQUET & WRAP */
         .bouquet-box {
@@ -66,63 +74,16 @@
 
         @keyframes float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-15px) rotate(1deg); } }
 
-        /* ENVELOPE SURPRISE - BLUE HEART CENTERED */
+        /* ENVELOPE SURPRISE */
         .envelope-container { position: relative; width: 280px; height: 180px; cursor: pointer; margin-top: 40px; perspective: 1000px; }
-        
         .envelope-back { position: absolute; width: 100%; height: 100%; background: var(--envelope-color); border-radius: 0 0 15px 15px; z-index: 1; }
-        
-        .lid { 
-            position: absolute; width: 0; height: 0; 
-            border-top: 100px solid var(--envelope-dark); 
-            border-left: 140px solid transparent; 
-            border-right: 140px solid transparent; 
-            top: 0; left: 0; 
-            transform-origin: top; 
-            transition: transform 0.6s ease; 
-            z-index: 10;
-        }
-        
-        .envelope-front { 
-            position: absolute; width: 0; height: 0; 
-            border-right: 140px solid var(--envelope-color); 
-            border-bottom: 90px solid var(--envelope-dark); 
-            border-left: 140px solid var(--envelope-color); 
-            bottom: 0; z-index: 9; 
-            border-radius: 0 0 15px 15px; 
-        }
-
-        .paper { 
-            position: absolute; width: 250px; height: 160px; 
-            background: white; left: 15px; 
-            top: 15px; 
-            opacity: 0; 
-            z-index: 2; 
-            transition: transform 0.8s ease-in-out, height 0.8s ease-in-out, opacity 0.3s; 
-            padding: 25px; box-sizing: border-box; border-radius: 10px;
-            overflow: hidden;
-        }
-
+        .lid { position: absolute; width: 0; height: 0; border-top: 100px solid var(--envelope-dark); border-left: 140px solid transparent; border-right: 140px solid transparent; top: 0; left: 0; transform-origin: top; transition: transform 0.6s ease; z-index: 10; }
+        .envelope-front { position: absolute; width: 0; height: 0; border-right: 140px solid var(--envelope-color); border-bottom: 90px solid var(--envelope-dark); border-left: 140px solid var(--envelope-color); bottom: 0; z-index: 9; border-radius: 0 0 15px 15px; }
+        .paper { position: absolute; width: 250px; height: 160px; background: white; left: 15px; top: 15px; opacity: 0; z-index: 2; transition: transform 0.8s ease-in-out, height 0.8s ease-in-out, opacity 0.3s; padding: 25px; box-sizing: border-box; border-radius: 10px; overflow: hidden; }
         .envelope-container.open .lid { transform: rotateX(180deg); z-index: 1; }
-        .envelope-container.open .paper { 
-            opacity: 1;
-            transform: translateY(-240px); 
-            height: 420px; 
-            z-index: 100; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-        }
-
+        .envelope-container.open .paper { opacity: 1; transform: translateY(-240px); height: 420px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .paper-content { font-family: 'Georgia', serif; font-size: 13px; color: #333; line-height: 1.6; overflow-y: auto; height: 100%; text-align: left; }
-        
-        .heart-seal { 
-            position: absolute; 
-            top: 70px; /* Adjusted for better centering on the flap */
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 38px; 
-            z-index: 11; 
-            transition: 0.3s; 
-            user-select: none;
-        }
+        .heart-seal { position: absolute; top: 70px; left: 50%; transform: translateX(-50%); font-size: 38px; z-index: 11; transition: 0.3s; }
         .open .heart-seal { opacity: 0; transform: translateX(-50%) scale(0); }
 
         .emoji-rain { position: fixed; top: -50px; z-index: 1000; animation: fall linear forwards; }
@@ -137,7 +98,7 @@
         <h1>Will you go on a date with me? ✨</h1>
         <div class="btn-container">
             <button id="yesBtn" onclick="goToStep(2)">YES!</button>
-            <button id="noBtn" onmouseover="handleNo()">NO 🥺</button>
+            <button id="noBtn" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()">NO 🥺</button>
         </div>
     </div>
 
@@ -191,13 +152,25 @@
             decor.appendChild(s);
         }
 
-        let currentScale = 1;
-        function handleNo() {
+        let yesScale = 1;
+        let noScale = 1;
+
+        function handleNoInteraction() {
             const noBtn = document.getElementById('noBtn');
             const yesBtn = document.getElementById('yesBtn');
-            noBtn.style.transform = `translate(${Math.random()*100-50}px, ${Math.random()*100-50}px)`;
-            currentScale += 0.15;
-            yesBtn.style.transform = `scale(${currentScale})`;
+            
+            // Move "No" button randomly
+            const x = Math.floor(Math.random() * 160 - 80);
+            const y = Math.floor(Math.random() * 160 - 80);
+            
+            // Shrink "No" button
+            noScale = Math.max(0.2, noScale - 0.1); 
+            
+            // Grow "Yes" button by 20% (1.2 multiplier)
+            yesScale += 0.2;
+            
+            noBtn.style.transform = `translate(${x}px, ${y}px) scale(${noScale})`;
+            yesBtn.style.transform = `scale(${yesScale})`;
         }
 
         function goToStep(s) {
